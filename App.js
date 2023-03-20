@@ -12,6 +12,7 @@ import {
 } from "react-native";
 
 import "./firebase/config";
+import Spinner from 'react-native-loading-spinner-overlay';
 import { getFirestore, doc, updateDoc, getDoc } from "firebase/firestore";
 
 import ABLANDADOR from "./images/ABLANDADOR.png";
@@ -97,7 +98,7 @@ const SelectInput = () => {
         await updateDoc(docRef, { [selectedName]: inputValue });
 
         setInputValue("");
-        setSaveMessage("El numero se ha guardado correctamente");
+        setSaveMessage("El valor se ha actualizado correctamente!");
         callProductsDb();
         setSelectedValue(inputValue);
         setTimeout(() => {
@@ -108,7 +109,7 @@ const SelectInput = () => {
         throw new Error("Error en la peticion put de Number", error);
       }
     } else {
-      setSaveMessage("Error, debe escribir un numero");
+      setSaveMessage("Error, debe escribir un numero!");
       setTimeout(() => {
         setSaveMessage("");
     
@@ -125,7 +126,11 @@ const SelectInput = () => {
       <View style={styles.container}>
   {loadingProducts ? (
     <View style={styles.loadingContainer}>
-      <Text style={styles.loadingText}>Cargando catálogo...</Text>
+       <Spinner
+          visible={loadingProducts}
+          textContent={'Cargando catalogo...'}
+          textStyle={styles.spinnerTextStyle}
+        />
     </View>
   ) : (
     <>
